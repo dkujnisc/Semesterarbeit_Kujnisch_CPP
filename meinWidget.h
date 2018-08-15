@@ -1,5 +1,6 @@
 // Qt5 add:
 #include <QWidget>
+#include <QPushButton>
 
 #include "zeichenFeld.h"
 
@@ -9,6 +10,8 @@ class meinWidget : public QWidget
 
 public:
     meinWidget(QWidget *parent = 0);
+    QPushButton *startPauseButton;
+    bool startPause=true;
 
 private:
     zeichenFeld *meinZeichenFeld;

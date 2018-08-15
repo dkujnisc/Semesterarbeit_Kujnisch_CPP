@@ -8,13 +8,15 @@
 meinWidget::meinWidget(QWidget *parent)
     : QWidget(parent)
 {
-    QPushButton *quit = new QPushButton(tr("Ende"));
-    quit->setFont(QFont("Arial", 18, QFont::Bold));
-    connect(quit, SIGNAL(clicked()), qApp, SLOT(quit()));
+    startPauseButton = new QPushButton(tr("Start"));
+    startPauseButton->setFont(QFont("Arial", 18, QFont::Bold));
+    connect(startPauseButton, SIGNAL(clicked()), this, SLOT(start()));
 
-    QPushButton *startButton = new QPushButton(tr("Start"));
-    startButton->setFont(QFont("Arial", 18, QFont::Bold));
-    connect(startButton, SIGNAL(clicked()), this, SLOT(start()));
+    QPushButton *speichernButton = new QPushButton(tr("Speichern"));
+    speichernButton->setFont(QFont("Arial", 18, QFont::Bold));
+    connect(speichernButton, SIGNAL(clicked()), qApp, SLOT(quit()));
+
+
 
     QPushButton *objektButton = new QPushButton(tr("Objekt"));
     objektButton->setFont(QFont("Arial", 18, QFont::Bold));
@@ -27,17 +29,27 @@ meinWidget::meinWidget(QWidget *parent)
     meinZeichenFeld = new zeichenFeld;
 
     QGridLayout *gridLayout = new QGridLayout;
-    gridLayout->addWidget(quit, 0, 0);
-    gridLayout->addWidget(startButton, 1, 0);
+    /*
     gridLayout->addWidget(objektButton, 2, 0);
     gridLayout->addWidget(stopButton, 3, 0);
-    gridLayout->addWidget(meinZeichenFeld, 0, 1, 3, 1);
+    */
+    gridLayout->addWidget(startPauseButton, 0, 0);
+    gridLayout->addWidget(speichernButton, 0, 1);
+    gridLayout->addWidget(meinZeichenFeld, 1, 0, 10, 10);
     gridLayout->setColumnStretch(1, 10);
     setLayout(gridLayout);
 }
 
 void meinWidget::start(void)
 {
+    // zustandscheck: start oder pause?
+    if (startPause) {
+        startPauseButton->setText("Pause");
+    } else {
+        startPauseButton->setText("Start");
+    }
+    // zustandswechsel
+    startPause=!startPause;
     meinZeichenFeld->start();
 }
 

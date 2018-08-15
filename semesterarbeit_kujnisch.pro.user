@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.6.1, 2018-07-25T18:21:37. -->
+<!-- Written by QtCreator 4.6.1, 2018-08-15T22:47:01. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -303,8 +303,8 @@
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">semesterarbeit_kujnisch</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/denise/Documents/1_Studium/seminararbeit/semesterarbeit_kujnisch/semesterarbeit_kujnisch.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">semesterarbeit_kujnisch2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/denise/Desktop/semesterarbeit_cpp_2/Semesterarbeit_Kujnisch_CPP/semesterarbeit_kujnisch.pro</value>
     <value type="bool" key="QmakeProjectManager.QmakeRunConfiguration.UseLibrarySearchPath">true</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"></value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">semesterarbeit_kujnisch.pro</value>
