@@ -26,4 +26,3 @@ private:
 protected:
     void paintEvent(QPaintEvent *event);
 };
-

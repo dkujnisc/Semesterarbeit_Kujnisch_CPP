@@ -3,6 +3,7 @@
 #include <QPushButton>
 
 #include "zeichenFeld.h"
+#include "lebensAnzeige.h"
 
 class meinWidget : public QWidget
 {
@@ -15,9 +16,10 @@ public:
 
 private:
     zeichenFeld *meinZeichenFeld;
+    lebensAnzeige *meineLebensAnzeige;
 
 private slots:
     void start(void);
-    void stop(void);
+    void laden(void);
     void neu(void);
 };

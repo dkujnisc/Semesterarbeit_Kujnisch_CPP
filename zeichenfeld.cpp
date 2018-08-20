@@ -24,11 +24,14 @@ zeichenFeld::~zeichenFeld()
 void zeichenFeld::paintEvent(QPaintEvent * )
 {
     QPainter painter;
+    // lebensanzeige
+    //painter.drawEllipse(x,y,50,50);
+
     int x,y,width,height;
 
     painter.begin( this );
     //linke obere Ecke: Breite == Hoehe == 50
-
+    painter.drawText(rect(), Qt::AlignCenter, "Qt");
     for (int i=0; i<kreise; i++)
     {
         x=lastX-25;

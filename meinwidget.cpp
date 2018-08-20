@@ -1,6 +1,7 @@
 // Qt5 add:
 #include <QPushButton>
 #include <QGridLayout>
+#include <QLabel>
 
 #include <QtGui>
 #include "meinWidget.h"
@@ -8,6 +9,12 @@
 meinWidget::meinWidget(QWidget *parent)
     : QWidget(parent)
 {
+    QLabel *highScoreLabel = new QLabel(this);
+    highScoreLabel->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+    highScoreLabel->setText("0 Punkte");
+    highScoreLabel->setFont(QFont("Arial", 18, QFont::Bold));
+    highScoreLabel->setAlignment(Qt::AlignBottom | Qt::AlignRight);
+
     startPauseButton = new QPushButton(tr("Start"));
     startPauseButton->setFont(QFont("Arial", 18, QFont::Bold));
     connect(startPauseButton, SIGNAL(clicked()), this, SLOT(start()));
@@ -16,28 +23,32 @@ meinWidget::meinWidget(QWidget *parent)
     speichernButton->setFont(QFont("Arial", 18, QFont::Bold));
     connect(speichernButton, SIGNAL(clicked()), qApp, SLOT(quit()));
 
-
-
     QPushButton *objektButton = new QPushButton(tr("Objekt"));
     objektButton->setFont(QFont("Arial", 18, QFont::Bold));
     connect(objektButton, SIGNAL(clicked()), this, SLOT(neu()));
 
-    QPushButton *stopButton = new QPushButton(tr("Stop"));
-    stopButton->setFont(QFont("Arial", 18, QFont::Bold));
-    connect(stopButton, SIGNAL(clicked()), this, SLOT(stop()));
+    QPushButton *ladenButton = new QPushButton(tr("Laden"));
+    ladenButton->setFont(QFont("Arial", 18, QFont::Bold));
+    connect(ladenButton, SIGNAL(clicked()), this, SLOT(laden()));
 
     meinZeichenFeld = new zeichenFeld;
+
+    meineLebensAnzeige = new lebensAnzeige;
 
     QGridLayout *gridLayout = new QGridLayout;
     /*
     gridLayout->addWidget(objektButton, 2, 0);
     gridLayout->addWidget(stopButton, 3, 0);
     */
-    gridLayout->addWidget(startPauseButton, 0, 0);
-    gridLayout->addWidget(speichernButton, 0, 1);
+    gridLayout->addWidget(highScoreLabel, 0, 0);
+    gridLayout->addWidget(startPauseButton, 0, 1);
+    gridLayout->addWidget(speichernButton, 0, 2);
+    gridLayout->addWidget(ladenButton, 0, 3);
+    gridLayout->addWidget(meineLebensAnzeige, 0, 4, 1, 3);
     gridLayout->addWidget(meinZeichenFeld, 1, 0, 10, 10);
     gridLayout->setColumnStretch(1, 10);
     setLayout(gridLayout);
+    meineLebensAnzeige->update();
 }
 
 void meinWidget::start(void)
@@ -58,7 +69,7 @@ void meinWidget::neu(void)
     meinZeichenFeld->kreise++;
 }
 
-void meinWidget::stop(void)
+void meinWidget::laden(void)
 {
     meinZeichenFeld->stop();
 }
