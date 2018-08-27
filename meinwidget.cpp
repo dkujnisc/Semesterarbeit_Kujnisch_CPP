@@ -5,6 +5,7 @@
 
 #include <QtGui>
 #include "meinWidget.h"
+#include <fallendesobjekt.h>
 
 meinWidget::meinWidget(QWidget *parent)
     : QWidget(parent)
@@ -48,7 +49,8 @@ meinWidget::meinWidget(QWidget *parent)
     gridLayout->addWidget(meinZeichenFeld, 1, 0, 10, 10);
     gridLayout->setColumnStretch(1, 10);
     setLayout(gridLayout);
-    meineLebensAnzeige->update();
+    //meineLebensAnzeige->update();
+    meinZeichenFeld->listeFallenderObjekte[0]=fallendesObjekt(100, 0);
 }
 
 void meinWidget::start(void)
@@ -56,12 +58,13 @@ void meinWidget::start(void)
     // zustandscheck: start oder pause?
     if (startPause) {
         startPauseButton->setText("Pause");
+        meinZeichenFeld->start();
     } else {
         startPauseButton->setText("Start");
+        meinZeichenFeld->stop();
     }
     // zustandswechsel
     startPause=!startPause;
-    meinZeichenFeld->start();
 }
 
 void meinWidget::neu(void)

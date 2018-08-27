@@ -28,13 +28,15 @@ SOURCES += \
         mainwindow.cpp \
     meinwidget.cpp \
     zeichenfeld.cpp \
-    lebensanzeige.cpp
+    lebensanzeige.cpp \
+    fallendesobjekt.cpp
 
 HEADERS += \
         mainwindow.h \
     zeichenFeld.h \
     meinWidget.h \
-    lebensAnzeige.h
+    lebensAnzeige.h \
+    fallendesObjekt.h
 
 FORMS += \
         mainwindow.ui

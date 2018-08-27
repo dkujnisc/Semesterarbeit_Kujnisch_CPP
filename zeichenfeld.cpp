@@ -1,5 +1,6 @@
 #include <QtGui>
 #include "zeichenFeld.h"
+#include <fallendesobjekt.h>
 
 zeichenFeld::zeichenFeld(QWidget *parent)
     : QWidget(parent)
@@ -10,11 +11,7 @@ zeichenFeld::zeichenFeld(QWidget *parent)
 
     timer=new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-
-    lastX=100;
-    lastY=100;
     increment=0;
-    phase=0;
 }
 
 zeichenFeld::~zeichenFeld()
@@ -25,41 +22,34 @@ void zeichenFeld::paintEvent(QPaintEvent * )
 {
     QPainter painter;
     // lebensanzeige
-    //painter.drawEllipse(x,y,50,50);
-
-    int x,y,width,height;
-
     painter.begin( this );
     //linke obere Ecke: Breite == Hoehe == 50
-    painter.drawText(rect(), Qt::AlignCenter, "Qt");
-    for (int i=0; i<kreise; i++)
-    {
-        x=lastX-25;
-        y=lastY-25;
+    // quelle: https://forum.qt.io/topic/23701/solved-how-to-generate-random-number-between-two-numbers-qt/6
 
-        painter.drawEllipse(x+(i*10),y+(i*10),50,50);
+    int High=10;
+    int Low=5;
+    painter.drawText(rect(), Qt::AlignCenter, QString::number(qrand() % ((High + 1) - Low) + Low));
+    this->width();
+    painter.setBrush(Qt::red);
+    if (0==anzahlLeben) {
+        painter.setBrush(Qt::black);
     }
+    painter.drawEllipse(this->width()-15,15,10,10);
+    if (1==anzahlLeben) {
+        painter.setBrush(Qt::black);
+    }
+    painter.drawEllipse(this->width()-30,15,10,10);
+    if (2==anzahlLeben) {
+        painter.setBrush(Qt::black);
+    }
+    painter.drawEllipse(this->width()-45,15,10,10);
+    painter.setBrush(Qt::black);
+    for(unsigned i = 0; i <= (sizeof(fallendesObjekt)/sizeof(listeFallenderObjekte)); i++)
+    {
+        painter.drawEllipse(listeFallenderObjekte[i].lastX,listeFallenderObjekte[i].lastY,50,50);
+    }
+    if (increment) {
 
-    if (increment)
-        switch(phase)
-        {
-        case 0:
-            if (lastX<300) lastX++;
-            else phase=1;
-            break;
-        case 1:
-            if (lastY<300) lastY++;
-            else phase=2;
-            break;
-        case 2:
-            if (lastX>100) lastX--;
-            else phase=3;
-            break;
-        case 3:
-            if (lastY>100) lastY--;
-            else phase=0;
-            break;
-        }
-
+    }
     painter.end();
 }
