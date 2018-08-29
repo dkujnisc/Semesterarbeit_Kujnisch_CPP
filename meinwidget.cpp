@@ -47,7 +47,7 @@ meinWidget::meinWidget(QWidget *parent) : QWidget(parent)
     gridLayout->setColumnStretch(1, 10);
     setLayout(gridLayout);
     //meineLebensAnzeige->update();
-    meinZeichenFeld->listeFallenderObjekte[0]=fallendesObjekt(100, 0);
+    meinZeichenFeld->listeFallenderObjekte[0]=fallendesObjekt(222, 333);
 }
 
 void meinWidget::saveFile(void)

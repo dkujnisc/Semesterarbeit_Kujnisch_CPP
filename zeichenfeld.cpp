@@ -2,6 +2,7 @@
 #include <QMessageBox>
 #include "zeichenFeld.h"
 #include <fallendesobjekt.h>
+#include <iostream>
 
 zeichenFeld::zeichenFeld(QWidget *parent)
     : QWidget(parent)
@@ -89,41 +90,25 @@ void zeichenFeld::serialize(QFile &file)
 // anlegen der methode deserialize
 void zeichenFeld::deserialize(QFile &file)
 {
-    char c;
-    QString test;
 
     // von der datei in das programm
     QTextStream in(&file);
 
-    in >> test;
-    if (test != "MeinZeichnungsFormat")
-    {
-        QMessageBox::warning(this, tr("Formatfehler"),
-                             tr("Das ist keine Zeichnungsdatei!"),QMessageBox::Ok);
-        return;
-    }
+    in >> anzahlLeben;
+    in >> punkte;
+    in >> positionAvatarX;
+    in >> positionAvatarY;
 
-    in >> c; // Leerstellen werden vom '>>' Operator 'konmsumiert';
-    // Zeilenenden nicht.
+    int i=0;
 
     while (in.status() == QTextStream::Ok)
     {
-        in >> c;
         if (in.status() == QTextStream::ReadPastEnd) break;
-
-        if (c!='p')
-        {
-            QMessageBox::warning(this, tr("Objektfehler"),
-                                 tr("Folgender Objekttyp ist unbekannt: ") + c,QMessageBox::Ok);
-            return;
-        }
-
-       // in >> x >> y;
-
-        in >> c; // Leerstellen werden vom '>>' Operator 'konmsumiert';
-        // Zeilenenden nicht.
-
+        listeFallenderObjekte[i]=fallendesObjekt(0, 0);
+        in >> listeFallenderObjekte[i].lastX >> listeFallenderObjekte[i].lastY;
+        i++;
     }
-
+    //cout << listeFallenderObjekte[0].lastX << endl;
+    //cout << listeFallenderObjekte[0].lastY << endl;
     update();
 }
