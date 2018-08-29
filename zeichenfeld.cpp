@@ -1,4 +1,5 @@
 #include <QtGui>
+#include <QMessageBox>
 #include "zeichenFeld.h"
 #include <fallendesobjekt.h>
 
@@ -52,4 +53,77 @@ void zeichenFeld::paintEvent(QPaintEvent * )
 
     }
     painter.end();
+}
+
+// anlegen der methode serialize
+void zeichenFeld::serialize(QFile &file)
+{
+    // format der datei
+    // leben
+    // punkte
+    // position avatar
+    // position fallendesObjekt
+    // fallende objekte...
+
+    // beispiel dateiinhalt
+    // 2
+    // 5311
+    // 10;100
+    // 300;200
+    // 253;192
+    // 112;270
+    // aus dem programm in eine datei
+    QTextStream out(&file);
+
+    out << anzahlLeben << endl;
+    out << punkte << endl;
+    out << positionAvatarX << endl;
+    out << positionAvatarY << endl;
+    for(unsigned i = 0; i <= (sizeof(fallendesObjekt)/sizeof(listeFallenderObjekte)); i++)
+    {
+        out << listeFallenderObjekte[i].lastX << endl;
+        out << listeFallenderObjekte[i].lastY << endl;
+    }
+}
+
+// anlegen der methode deserialize
+void zeichenFeld::deserialize(QFile &file)
+{
+    char c;
+    QString test;
+
+    // von der datei in das programm
+    QTextStream in(&file);
+
+    in >> test;
+    if (test != "MeinZeichnungsFormat")
+    {
+        QMessageBox::warning(this, tr("Formatfehler"),
+                             tr("Das ist keine Zeichnungsdatei!"),QMessageBox::Ok);
+        return;
+    }
+
+    in >> c; // Leerstellen werden vom '>>' Operator 'konmsumiert';
+    // Zeilenenden nicht.
+
+    while (in.status() == QTextStream::Ok)
+    {
+        in >> c;
+        if (in.status() == QTextStream::ReadPastEnd) break;
+
+        if (c!='p')
+        {
+            QMessageBox::warning(this, tr("Objektfehler"),
+                                 tr("Folgender Objekttyp ist unbekannt: ") + c,QMessageBox::Ok);
+            return;
+        }
+
+       // in >> x >> y;
+
+        in >> c; // Leerstellen werden vom '>>' Operator 'konmsumiert';
+        // Zeilenenden nicht.
+
+    }
+
+    update();
 }

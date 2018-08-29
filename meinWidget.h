@@ -19,7 +19,7 @@ private:
     lebensAnzeige *meineLebensAnzeige;
 
 private slots:
-    void start(void);
-    void laden(void);
-    void neu(void);
+    void saveFile (void);
+    void loadFile (void);
+    void start (void);
 };

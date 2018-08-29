@@ -2,13 +2,14 @@
 #include <QPushButton>
 #include <QGridLayout>
 #include <QLabel>
+#include <QFileDialog>
+#include <QMessageBox>
 
 #include <QtGui>
 #include "meinWidget.h"
 #include <fallendesobjekt.h>
 
-meinWidget::meinWidget(QWidget *parent)
-    : QWidget(parent)
+meinWidget::meinWidget(QWidget *parent) : QWidget(parent)
 {
     QLabel *highScoreLabel = new QLabel(this);
     highScoreLabel->setFrameStyle(QFrame::Panel | QFrame::Sunken);
@@ -22,15 +23,11 @@ meinWidget::meinWidget(QWidget *parent)
 
     QPushButton *speichernButton = new QPushButton(tr("Speichern"));
     speichernButton->setFont(QFont("Arial", 18, QFont::Bold));
-    connect(speichernButton, SIGNAL(clicked()), qApp, SLOT(quit()));
-
-    QPushButton *objektButton = new QPushButton(tr("Objekt"));
-    objektButton->setFont(QFont("Arial", 18, QFont::Bold));
-    connect(objektButton, SIGNAL(clicked()), this, SLOT(neu()));
+    connect(speichernButton, SIGNAL(clicked()), this, SLOT(saveFile()));
 
     QPushButton *ladenButton = new QPushButton(tr("Laden"));
     ladenButton->setFont(QFont("Arial", 18, QFont::Bold));
-    connect(ladenButton, SIGNAL(clicked()), this, SLOT(laden()));
+    connect(ladenButton, SIGNAL(clicked()), this, SLOT(loadFile()));
 
     meinZeichenFeld = new zeichenFeld;
 
@@ -53,6 +50,56 @@ meinWidget::meinWidget(QWidget *parent)
     meinZeichenFeld->listeFallenderObjekte[0]=fallendesObjekt(100, 0);
 }
 
+void meinWidget::saveFile(void)
+{
+    QFileDialog dialog(this);
+    QString fileName;
+    QFile file;
+
+    dialog.setFileMode(QFileDialog::AnyFile);
+    fileName = dialog.getSaveFileName(this,
+                                      tr("Speichern als"), ".", tr("Zeichnungen (*.myz)"));
+
+    if (fileName.isNull()==false)
+    {
+        file.setFileName(fileName);
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+        {
+            QMessageBox::warning(this, tr("Dateifehler"),
+                                 tr("Folgende Datei kann nicht verwendet werden: ") + fileName,QMessageBox::Ok);
+        }
+
+        meinZeichenFeld->serialize(file);
+        file.close();
+        return;
+    }
+}
+
+void meinWidget::loadFile(void)
+{
+    QFileDialog dialog(this);
+    QString fileName;
+    QFile file;
+
+    dialog.setFileMode(QFileDialog::AnyFile);
+    fileName = dialog.getOpenFileName(this,
+                                      tr("Speichern als"), ".", tr("Zeichnungen (*.myz)"));
+
+    if (fileName.isNull()==false)
+    {
+        file.setFileName(fileName);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+            QMessageBox::warning(this, tr("Dateifehler"),
+                                 tr("Folgende Datei kann nicht geöffnet werden: ") + fileName,QMessageBox::Ok);
+        }
+
+        meinZeichenFeld->deserialize(file);
+        file.close();
+        return;
+    }
+}
+
 void meinWidget::start(void)
 {
     // zustandscheck: start oder pause?
@@ -67,12 +114,3 @@ void meinWidget::start(void)
     startPause=!startPause;
 }
 
-void meinWidget::neu(void)
-{
-    meinZeichenFeld->kreise++;
-}
-
-void meinWidget::laden(void)
-{
-    meinZeichenFeld->stop();
-}
