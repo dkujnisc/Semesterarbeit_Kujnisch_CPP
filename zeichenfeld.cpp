@@ -46,6 +46,12 @@ void zeichenFeld::paintEvent(QPaintEvent * )
     }
     painter.drawEllipse(this->width()-45,15,10,10);
     painter.setBrush(Qt::black);
+
+    // avatar
+    positionAvatarY=height()-10;
+    painter.drawRect(positionAvatarX, positionAvatarY, 50, 50);
+
+    // fallende objekte
     for(unsigned i = 0; i <= (sizeof(fallendesObjekt)/sizeof(listeFallenderObjekte)); i++)
     {
         painter.drawEllipse(listeFallenderObjekte[i].lastX,listeFallenderObjekte[i].lastY,50,50);

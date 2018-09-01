@@ -4,10 +4,13 @@
 #include <QLabel>
 #include <QFileDialog>
 #include <QMessageBox>
-
+#include <QEvent>
+#include <QObject>
+#include <QKeyEvent>
 #include <QtGui>
 #include "meinWidget.h"
 #include <fallendesobjekt.h>
+#include <iostream>
 
 meinWidget::meinWidget(QWidget *parent) : QWidget(parent)
 {
@@ -48,6 +51,7 @@ meinWidget::meinWidget(QWidget *parent) : QWidget(parent)
     setLayout(gridLayout);
     //meineLebensAnzeige->update();
     meinZeichenFeld->listeFallenderObjekte[0]=fallendesObjekt(222, 333);
+    meinZeichenFeld->positionAvatarX=meinZeichenFeld->width()/2;
 }
 
 void meinWidget::saveFile(void)
@@ -114,3 +118,16 @@ void meinWidget::start(void)
     startPause=!startPause;
 }
 
+// steuerung mit pfeiltaste
+// quelle: https://stackoverflow.com/questions/10942384/handling-left-and-right-key-events-in-qt
+bool meinWidget::eventFilter(QObject *object, QEvent *e)
+{
+    cout << "test" << endl;
+ if (e->type() == QEvent::KeyPress)
+  {
+  QKeyEvent *keyEvent = static_cast<QKeyEvent *>(e);
+  //cout << e->key() << "\n";
+
+  }
+ return false;
+}

@@ -1,7 +1,8 @@
 // Qt5 add:
 #include <QWidget>
 #include <QPushButton>
-
+#include <QObject>
+#include <QEvent>
 #include "zeichenFeld.h"
 #include "lebensAnzeige.h"
 
@@ -22,4 +23,7 @@ private slots:
     void saveFile (void);
     void loadFile (void);
     void start (void);
+
+protected:
+    bool eventFilter(QObject *object, QEvent *e);
 };
