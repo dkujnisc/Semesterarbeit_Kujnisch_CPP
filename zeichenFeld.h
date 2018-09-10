@@ -21,6 +21,8 @@ public:
     // startlebensanzeige = 3 leben
     int anzahlLeben=3;
     int punkte=0;
+    // zum regelmäßigen generieren neuer objekte
+    int countdownFallenderObjekte=0;
     int positionAvatarX=0;
     int positionAvatarY=0;
 

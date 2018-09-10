@@ -37,6 +37,7 @@ meinWidget::meinWidget(QWidget *parent) : QWidget(parent)
     meineLebensAnzeige = new lebensAnzeige;
 
     QGridLayout *gridLayout = new QGridLayout;
+
     /*
     gridLayout->addWidget(objektButton, 2, 0);
     gridLayout->addWidget(stopButton, 3, 0);
@@ -50,7 +51,7 @@ meinWidget::meinWidget(QWidget *parent) : QWidget(parent)
     gridLayout->setColumnStretch(1, 10);
     setLayout(gridLayout);
     //meineLebensAnzeige->update();
-    meinZeichenFeld->listeFallenderObjekte[0]=fallendesObjekt(222, 333);
+    //meinZeichenFeld->listeFallenderObjekte[0]=fallendesObjekt(222, 333);
     meinZeichenFeld->positionAvatarX=meinZeichenFeld->width()/2;
 }
 
@@ -120,14 +121,43 @@ void meinWidget::start(void)
 
 // steuerung mit pfeiltaste
 // quelle: https://stackoverflow.com/questions/10942384/handling-left-and-right-key-events-in-qt
-bool meinWidget::eventFilter(QObject *object, QEvent *e)
+
+bool meinWidget::eventFilter(QObject *object, QEvent *event)
 {
     cout << "test" << endl;
- if (e->type() == QEvent::KeyPress)
+ if (event->type() == QEvent::KeyPress)
   {
-  QKeyEvent *keyEvent = static_cast<QKeyEvent *>(e);
-  //cout << e->key() << "\n";
+  QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+  cout << keyEvent->key() << "\n";
 
   }
- return false;
+ return QObject::eventFilter(object, event);
 }
+
+
+/*
+bool meinWidget::eventFilter(QObject *obj, QEvent *event)
+{
+    if (event->type() == QEvent::KeyPress)
+    {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+
+        if (keyEvent->key() == Qt::Key_Left){
+            if (hauptSpielfeld->x >= 30)
+                    hauptSpielfeld->x -= 50;
+            else if (hauptSpielfeld->x < 30)
+                hauptSpielfeld->x = 0;
+        }
+        else if (keyEvent->key() == Qt::Key_Right){
+            if (hauptSpielfeld->x <= 1040)
+            hauptSpielfeld->x += 50;
+            else if (hauptSpielfeld->x > 1040)
+                hauptSpielfeld->x = 1075;
+        }
+
+
+        hauptSpielfeld->update();
+    }
+    return QObject::eventFilter(obj, event);
+}
+*/
