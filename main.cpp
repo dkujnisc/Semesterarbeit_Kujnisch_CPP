@@ -4,8 +4,8 @@
 
 int main(int argc, char *argv[])
 {
+    // initial setzen für zufallsgenerator
     srand(time(NULL));
-    //fallendesObjekt *ukulele=new fallendesObjekt(1,2);
     QApplication a(argc, argv);
     meinWidget w;
     w.setGeometry(0, 0, 500, 355);

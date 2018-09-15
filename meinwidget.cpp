@@ -14,12 +14,6 @@
 
 meinWidget::meinWidget(QWidget *parent) : QWidget(parent)
 {
-    QLabel *highScoreLabel = new QLabel(this);
-    highScoreLabel->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-    highScoreLabel->setText("0 Punkte");
-    highScoreLabel->setFont(QFont("Arial", 18, QFont::Bold));
-    highScoreLabel->setAlignment(Qt::AlignBottom | Qt::AlignRight);
-
     startPauseButton = new QPushButton(tr("Start"));
     startPauseButton->setFont(QFont("Arial", 18, QFont::Bold));
     connect(startPauseButton, SIGNAL(clicked()), this, SLOT(start()));
@@ -34,24 +28,19 @@ meinWidget::meinWidget(QWidget *parent) : QWidget(parent)
 
     meinZeichenFeld = new zeichenFeld;
 
-    meineLebensAnzeige = new lebensAnzeige;
+    // quelle: https://stackoverflow.com/questions/26368659/qwidget-how-to-receive-keypressevent-inside-child-widgets/26368894
+    // diese zeile stand leider in nur sehr wenigen quellen drin
+    // deshalb hat die steuerung auch am meisten nerven gekostet
+    qApp->installEventFilter(this);
 
     QGridLayout *gridLayout = new QGridLayout;
 
-    /*
-    gridLayout->addWidget(objektButton, 2, 0);
-    gridLayout->addWidget(stopButton, 3, 0);
-    */
-    gridLayout->addWidget(highScoreLabel, 0, 0);
     gridLayout->addWidget(startPauseButton, 0, 1);
     gridLayout->addWidget(speichernButton, 0, 2);
     gridLayout->addWidget(ladenButton, 0, 3);
-    gridLayout->addWidget(meineLebensAnzeige, 0, 4, 1, 3);
     gridLayout->addWidget(meinZeichenFeld, 1, 0, 10, 10);
     gridLayout->setColumnStretch(1, 10);
     setLayout(gridLayout);
-    //meineLebensAnzeige->update();
-    //meinZeichenFeld->listeFallenderObjekte[0]=fallendesObjekt(222, 333);
     meinZeichenFeld->positionAvatarX=meinZeichenFeld->width()/2;
 }
 
@@ -124,40 +113,19 @@ void meinWidget::start(void)
 
 bool meinWidget::eventFilter(QObject *object, QEvent *event)
 {
-    cout << "test" << endl;
- if (event->type() == QEvent::KeyPress)
+  if (event->type() == QEvent::KeyPress)
   {
   QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+  if (keyEvent->key() == Qt::Key_Left){
+      meinZeichenFeld->positionAvatarX=meinZeichenFeld->positionAvatarX-5;
+  }
+
+  if (keyEvent->key() == Qt::Key_Right){
+     meinZeichenFeld->positionAvatarX=meinZeichenFeld->positionAvatarX+5;
+  }
+
   cout << keyEvent->key() << "\n";
 
   }
  return QObject::eventFilter(object, event);
 }
-
-
-/*
-bool meinWidget::eventFilter(QObject *obj, QEvent *event)
-{
-    if (event->type() == QEvent::KeyPress)
-    {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-
-        if (keyEvent->key() == Qt::Key_Left){
-            if (hauptSpielfeld->x >= 30)
-                    hauptSpielfeld->x -= 50;
-            else if (hauptSpielfeld->x < 30)
-                hauptSpielfeld->x = 0;
-        }
-        else if (keyEvent->key() == Qt::Key_Right){
-            if (hauptSpielfeld->x <= 1040)
-            hauptSpielfeld->x += 50;
-            else if (hauptSpielfeld->x > 1040)
-                hauptSpielfeld->x = 1075;
-        }
-
-
-        hauptSpielfeld->update();
-    }
-    return QObject::eventFilter(obj, event);
-}
-*/

@@ -12,6 +12,7 @@ public:
 
     int lastX=0;
     int lastY=0;
+    // zur überprüfung, ob objekt angezeigt werden soll
     int isUsed=0;
 };
 

@@ -27,19 +27,14 @@ zeichenFeld::~zeichenFeld()
 
 void zeichenFeld::paintEvent(QPaintEvent * )
 {
-
-
     QPainter painter;
-    // lebensanzeige
     painter.begin( this );
 
-    //linke obere Ecke: Breite == Hoehe == 50
+    // punktecounter
+    painter.drawText(10, 20, QString::number(punkte));
     // quelle: https://forum.qt.io/topic/23701/solved-how-to-generate-random-number-between-two-numbers-qt/6
 
-    int High=10;
-    int Low=5;
-    painter.drawText(rect(), Qt::AlignCenter, QString::number(qrand() % ((High + 1) - Low) + Low));
-    this->width();
+    // lebensanzeige
     painter.setBrush(Qt::red);
     if (0==anzahlLeben) {
         painter.setBrush(Qt::black);
@@ -57,7 +52,9 @@ void zeichenFeld::paintEvent(QPaintEvent * )
 
     // avatar
     positionAvatarY=height()-10;
+    painter.setBrush(Qt::green);
     painter.drawRect(positionAvatarX, positionAvatarY, 50, 50);
+    painter.setBrush(Qt::black);
 
     // fallende objekte
         for (int j = 0; j<100; j++) {
@@ -75,6 +72,9 @@ void zeichenFeld::paintEvent(QPaintEvent * )
             }
         }
         countdownFallenderObjekte++;
+        if (0==countdownFallenderObjekte%50) {
+            punkte++;
+        }
         if (50<countdownFallenderObjekte) {
             for (int j = 0; j<100; j++) {
                 if (0==listeFallenderObjekte[j].isUsed) {

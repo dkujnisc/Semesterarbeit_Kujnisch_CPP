@@ -17,7 +17,6 @@ public:
 
 private:
     zeichenFeld *meinZeichenFeld;
-    lebensAnzeige *meineLebensAnzeige;
 
 private slots:
     void saveFile (void);

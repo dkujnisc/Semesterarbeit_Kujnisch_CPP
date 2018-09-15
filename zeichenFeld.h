@@ -15,6 +15,7 @@ public:
     void serialize (QFile &file);
     void deserialize (QFile &file);
 
+    // starten und stoppen des timers
     void start(void) { timer->start(10); increment=1; };
     void stop(void) { timer->stop(); increment=0; };
 
